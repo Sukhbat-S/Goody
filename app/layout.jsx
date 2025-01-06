@@ -1,6 +1,7 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import HomeContextProvider from "@/contexts/HomeContext";
+import { ToastContainer } from "react-toastify";
 
 const robotoFont = Roboto({
   weight: "400",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
       <HomeContextProvider>
         <body className={`${robotoFont.className} antialiased `}>
           {children}
+          <ToastContainer />
         </body>
       </HomeContextProvider>
     </html>
