@@ -5,14 +5,14 @@ import menuSelected from "../../public/menuSelected.svg";
 import cartSelected from "../../public/cartSelected.svg";
 import { useHomeContext } from "@/contexts/HomeContext";
 
-export const Menu = ({ cart }) => {
+export const MenuCarousel = ({ cart }) => {
   const { menu, setMenu } = useHomeContext();
   return (
     <div className="flex items-center w-full bg-white border-b border-[#EDEDED]">
       <div className="flex flex-col w-full justify-center items-center">
-        <div className="flex">
+        <div className="flex gap-44">
           <div
-            className="flex flex-row gap-2 items-center justify-center w-[236px] h-[66px] select-none"
+            className="flex flex-row gap-2 items-center justify-center  w-full py-[19px]  select-none"
             onClick={() => setMenu("Menu")}
           >
             <Image
@@ -21,7 +21,7 @@ export const Menu = ({ cart }) => {
               priority
             />
             <div
-              className={`text-lg ${
+              className={`text-lg font-medium ${
                 menu === "Menu" ? "text-[#1C4B16]" : "text-[#767676]"
               }`}
             >
@@ -29,10 +29,10 @@ export const Menu = ({ cart }) => {
             </div>
           </div>
           <div
-            className="flex flex-row  gap-2 items-center  justify-center w-[236px] h-[66px] select-none "
+            className="flex flex-row  gap-2 items-center  justify-center w-full h-fit py-[19px] select-none "
             onClick={() => setMenu("Cart")}
           >
-            <div className="relative">
+            <div className="relative ">
               <Image
                 src={menu === "Cart" ? cartSelected : cartUnselected}
                 alt="cart"
@@ -43,13 +43,13 @@ export const Menu = ({ cart }) => {
                   cart.length > 0 ? "visible" : " hidden"
                 } `}
               >
-                <div className="flex text-white text-[10px] px-1  ">
+                <div className="flex text-white text-[10px] justify-center w-full h-full items-center ">
                   {cart.length}
                 </div>
               </div>
             </div>
             <div
-              className={`flex text-lg duration-500 ${
+              className={`flex text-lg font-medium ${
                 menu === "Cart" ? "text-[#1C4B16]" : "text-[#767676]"
               } `}
             >
@@ -58,14 +58,14 @@ export const Menu = ({ cart }) => {
           </div>
         </div>
         <div
-          className={`flex  w-[472px] items-start duration-500 ${
-            menu === "Menu" ? "translate-x-14" : "translate-x-[62%]"
+          className={`flex  w-fit duration-500 overflow-hidden ${
+            menu === "Menu" ? "-translate-x-[124px]" : "translate-x-[130px]"
           } `}
         >
-          <div className=" flex w-[116px] h-[4px] border rounded-full text-[#308226] text-opacity-0 bg-[#308226] duration-500" />
+          <div className=" flex w-[116px] h-[4px] rounded-full relative top-0.5  text-[#308226] text-opacity-0 bg-[#308226] duration-500" />
         </div>
       </div>
     </div>
   );
 };
-export default Menu;
+export default MenuCarousel;

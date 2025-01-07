@@ -1,3 +1,171 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+@keyframes mymove-0 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -308px;
+    left: 402px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+    opacity: 0;
+  }
+}
+@keyframes mymove-1 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -308px;
+    left: 159px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+    opacity: 0;
+  }
+}
+@keyframes mymove-2 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+  to {
+    top: -308px;
+    left: -84px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+
+    opacity: 0;
+  }
+}
+@keyframes mymove-3 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -308px;
+    left: -327px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+    opacity: 0;
+  }
+}
+@keyframes mymove-4 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -598px;
+    left: 402px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+
+    opacity: 0;
+  }
+}
+@keyframes mymove-5 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -598px;
+    left: 159px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+    opacity: 0;
+  }
+}
+@keyframes mymove-6 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -598px;
+    left: -84px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+
+    opacity: 0;
+  }
+}
+@keyframes mymove-7 {
+  from {
+    top: 0px;
+    left: 0px;
+    scale: 1;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  to {
+    top: -598px;
+    left: -327px;
+    scale: 0.3;
+    border-radius: 20px;
+    width: 40px;
+    height: 42px;
+    opacity: 0;
+  }
+}
