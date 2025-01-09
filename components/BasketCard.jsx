@@ -3,6 +3,8 @@ import { useHomeContext } from "@/contexts/HomeContext";
 import { useState } from "react";
 import Plus from "@/public/Plus.svg";
 import minus from "@/public/Minus.svg";
+import minusLimit from "@/public/MinusLimit.svg";
+import plusLimit from "@/public/plusLimit.svg";
 import Image from "next/image";
 import Bin from "@/public/Bin.svg";
 import Info from "@/public/Info.svg";
@@ -14,11 +16,6 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
     useHomeContext();
   //Great one, But almost amazing, Rethink again tmw
   const handleQuantityChange = (id, itemType) => {
-    const minLimit = cart.find((item) => item.id === id);
-    if (minLimit.inCart === 1 && itemType === "decrease") {
-      toast("Бараа доод хязгаартаа хүрсэн байна!", { icon: "✋🏻" });
-      return;
-    }
     const updateCart = cart
       .map((item) => {
         if (item.id === id) {
@@ -30,11 +27,6 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
         return item;
       })
       .filter((item) => item.inCart > 0);
-    const maxLimit = data.find((item) => item.id === id);
-    if (maxLimit.left === 0 && itemType === "increase") {
-      toast("Бараа дээд хязгаартаа хүрсэн байна!", { icon: "✋🏻" });
-      return;
-    }
     const updateData = data.map((item) => {
       if (item.id === id) {
         const newLeft =
@@ -67,24 +59,25 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
       setRemoving(null);
     }, 600);
   };
+  const maxLimit = data.find((item) => item.id === id);
 
   return (
     <div
-      className={`flex flex-row justify-between  px-3 py-3 gap-2  bg-white border-2 border-[#EDEDED] rounded-xl ${
+      className={`flex flex-row justify-between  px-3 py-3 gap-2  bg-white border-2 border-[#EDEDED] rounded-xl  ${
         removing === id ? "duration-1000 -translate-x-[800px]" : "translate-x-0"
       }`}
     >
       <div>
         <Image priority src={img} alt={`${img}-${title}`} key={id} />
       </div>
-      <div className="flex flex-col w-full justify-between">
+      <div className="flex flex-col w-full justify-between ">
         <div className="flex flex-row w-full justify-between items-center h-fit">
           <div className="flex flex-row gap-2 ">
+            <p className="text-[#B3B3B3] text-xl">{maxLimit.left}x</p>
             <div className="flex text-xl text-[#5a5a5a]">{title}</div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex gap-2 items-end ">
-              <p className="text-[#767676]">{inCart}x</p>
+            <div className="flex  ">
               <p className="text-xl ">{price}₮</p>
             </div>
           </div>
@@ -123,29 +116,49 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
             </div>
           </div>
           <div className="flex flex-row items-center gap-2.5">
-            <Image
-              priority
-              src={minus}
-              alt="icon"
-              width={40}
-              height={40}
-              onClick={() => {
-                handleQuantityChange(id, "decrease");
-              }}
-            />
+            {inCart === 1 ? (
+              <Image
+                priority
+                src={minusLimit}
+                alt="icon"
+                width={40}
+                height={40}
+              />
+            ) : (
+              <Image
+                priority
+                src={minus}
+                alt="icon"
+                width={40}
+                height={40}
+                onClick={() => {
+                  handleQuantityChange(id, "decrease");
+                }}
+              />
+            )}
             <div className="text-[#303030] text-xl font-normal font-['Roboto']">
               {inCart}
             </div>
-            <Image
-              priority
-              src={Plus}
-              alt="icon"
-              width={40}
-              height={40}
-              onClick={() => {
-                handleQuantityChange(id, "increase");
-              }}
-            />
+            {maxLimit.left === 0 ? (
+              <Image
+                priority
+                src={plusLimit}
+                alt="icon"
+                width={40}
+                height={40}
+              />
+            ) : (
+              <Image
+                priority
+                src={Plus}
+                alt="icon"
+                width={40}
+                height={40}
+                onClick={() => {
+                  handleQuantityChange(id, "increase");
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

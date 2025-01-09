@@ -4,7 +4,7 @@ import React from "react";
 export const Order = ({ cart }) => {
   const { setMenu, removing } = useHomeContext();
   return (
-    <div className="w-[32%]">
+    <div className="flex-1">
       {cart.length > 0 ? (
         <div
           className={`flex flex-col gap-6 justify-between h-full bg-white border-2 border-[#ededed] p-4 rounded-xl`}
@@ -28,7 +28,7 @@ export const Order = ({ cart }) => {
                         <div className="text-[18px] text-[#767676]   ">
                           {data.title}
                         </div>
-                        <div className="flex justify-between items-end w-[30%]  ">
+                        <div className="flex justify-between items-end gap-6  ">
                           <p className="text-[#767676] text-[18px]">
                             {data.inCart}x
                           </p>
@@ -58,7 +58,7 @@ export const Order = ({ cart }) => {
           </button>
         </div>
       ) : (
-        <div className={`py-48 h-fit grid gap-4`}>
+        <div className={`py-48 h-fit grid relative -left-32 gap-4 `}>
           <div>Сагсалсан бараа байхгүй байна!</div>
           <button
             onClick={() => setMenu("Menu")}
