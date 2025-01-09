@@ -75,7 +75,7 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
       }`}
     >
       <div>
-        <Image priority src={img} alt={`${img}-${title}`} />
+        <Image priority src={img} alt={`${img}-${title}`} key={id} />
       </div>
       <div className="flex flex-col w-full justify-between">
         <div className="flex flex-row w-full justify-between items-center h-fit">
