@@ -1,113 +1,95 @@
 "use client";
 import { useHomeContext } from "@/contexts/HomeContext";
-import toast from "react-hot-toast";
 import { MenuCard } from ".";
+import { useSwipeable } from "react-swipeable";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export const Menu = () => {
   const { menu, data, setData, cart, setCart } = useHomeContext();
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handleCart = (id) => {
     const selectedItem = data.find((item) => item.id === id);
+    if (selectedItem.left === 0) {
+      return;
+    }
 
-    const existingCartItemIndex = cart.findIndex(
-      (item) => item.id === selectedItem.id
+    const updatedCart = [...cart];
+    const existingCartItemIndex = updatedCart.findIndex(
+      (item) => item.id === id
     );
 
-    if (
-      existingCartItemIndex !== -1 &&
-      cart[existingCartItemIndex].inCart > 0
-    ) {
-      return toast("Таны сагсанд аль хэдийн орсон байна!", { icon: "🛒" });
-    }
-
     if (existingCartItemIndex !== -1) {
-      setCart((prevCart) => {
-        const newCart = [...prevCart];
-        newCart[existingCartItemIndex] = {
-          ...newCart[existingCartItemIndex],
-          left: newCart[existingCartItemIndex].left - 1,
-          inCart: newCart[existingCartItemIndex].inCart + 1,
-        };
-        return newCart;
-      });
+      updatedCart[existingCartItemIndex] = {
+        ...updatedCart[existingCartItemIndex],
+        left: updatedCart[existingCartItemIndex].left - 1,
+        inCart: updatedCart[existingCartItemIndex].inCart + 1,
+      };
     } else {
-      setCart((prevCart) => [
-        ...prevCart,
-        {
-          ...selectedItem,
-          left: selectedItem.left - 1,
-          inCart: 1,
-        },
-      ]);
+      updatedCart.push({
+        ...selectedItem,
+        left: selectedItem.left - 1,
+        inCart: 1,
+      });
     }
 
-    setData((prevData) => {
-      const newData = [...prevData];
-      const itemIndex = newData.findIndex(
-        (item) => item.id === selectedItem.id
-      );
-      if (itemIndex !== -1) {
-        newData[itemIndex] = {
-          ...newData[itemIndex],
-          left: newData[itemIndex].left - 1,
-        };
-      }
-      return newData;
-    });
+    setCart(updatedCart);
+
+    const updatedData = data.map((item) =>
+      item.id === selectedItem.id ? { ...item, left: item.left - 1 } : item
+    );
+    setData(updatedData);
   };
 
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
-  const router = useRouter();
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    router.push(`?page=${page}`, undefined, { shallow: true });
+  const handleSwipeMenuUp = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage((prev) => prev + 1);
+    } else if (currentPage === totalPages - 1) {
+      setCurrentPage(0);
+    }
   };
-  const paginationData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+
+  const handleSwipeMenuDown = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
+    } else if (currentPage === 0) {
+      setCurrentPage(totalPages - 1);
+    }
+  };
+
+  const swipeMenu = useSwipeable({
+    onSwipedUp: handleSwipeMenuUp,
+    onSwipedDown: handleSwipeMenuDown,
+    delta: 100,
+  });
+
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPageItems = data.slice(startIndex, endIndex);
+
   return (
     <>
       {menu === "Menu" && (
-        <div className="grid gap-4">
+        <div className="flex gap-1">
           <div
-            className={`grid grid-flow-row grid-cols-4 gap-4 items-center justify-center w-full`}
+            {...swipeMenu}
+            className={`grid grid-flow-row grid-cols-4 gap-3 items-center justify-center w-full h-full scroll-smooth`}
           >
-            {paginationData.map((x, index) => {
-              return (
-                <div key={index} className="flex">
-                  <MenuCard
-                    title={x.title}
-                    left={x?.left}
-                    price={x?.price}
-                    img={x?.img}
-                    id={x.id}
-                    index={index}
-                    addToCart={() => handleCart(x.id)}
-                    currentPage={currentPage}
-                    cart={cart}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex w-full  justify-center">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`w-[100px]  rounded-md ${
-                  page === currentPage
-                    ? "bg-[#1C4B16] text-white duration-700"
-                    : ""
-                }`}
-              >
-                {page}
-              </button>
+            {currentPageItems.map((x, index) => (
+              <div key={x.id}>
+                <MenuCard
+                  title={x.title}
+                  left={x.left}
+                  price={x.price}
+                  img={x.img}
+                  id={x.id}
+                  index={index}
+                  addToCart={() => handleCart(x.id)}
+                />
+              </div>
             ))}
           </div>
         </div>
