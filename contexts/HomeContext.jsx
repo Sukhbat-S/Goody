@@ -8,11 +8,14 @@ export const HomeContextProvider = ({ children }) => {
   const [data, setData] = useState(staticDatas);
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState([]);
+  const [removing, setRemoving] = useState(false);
   return (
     <HomeContext.Provider
       value={{
         menu,
         setMenu,
+        removing,
+        setRemoving,
         data,
         setData,
         cart,

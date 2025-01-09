@@ -7,7 +7,7 @@ import cola from "../public/cola.svg";
 
 export const staticDatas = [
   {
-    id:"1",
+    id: "1",
     info: "so cool bro",
     title: "Сracker",
     left: 8,
@@ -16,7 +16,7 @@ export const staticDatas = [
     img: crack,
   },
   {
-    id:"2",
+    id: "2",
     info: "so cool bro",
     title: "Max Fun",
     left: 7,
@@ -25,7 +25,7 @@ export const staticDatas = [
     img: maxFun,
   },
   {
-    id:"3",
+    id: "3",
     info: "so cool bro",
     title: "Oreo Bites",
     left: 10,
@@ -34,16 +34,16 @@ export const staticDatas = [
     img: oreoBites,
   },
   {
-    id:"4",
+    id: "4",
     info: "so cool bro",
-    title: "Alpen Gold Oreo",
+    title: "Alpen Gold Oreo ",
     left: 6,
     inCart: 0,
     price: 4500,
     img: oreoBites,
   },
   {
-    id:"5",
+    id: "5",
     info: "so cool bro",
     title: "Alpen Gold",
     left: 9,
@@ -52,7 +52,7 @@ export const staticDatas = [
     img: alpenGold,
   },
   {
-    id:"6",
+    id: "6",
     info: "so cool bro",
     title: "Oreo",
     left: 4,
@@ -61,7 +61,7 @@ export const staticDatas = [
     img: oreoBites,
   },
   {
-    id:"7",
+    id: "7",
     info: "so cool bro",
     title: "Супер контик",
     left: 5,
@@ -70,7 +70,7 @@ export const staticDatas = [
     img: kontik,
   },
   {
-    id:"8",
+    id: "8",
     info: "so cool bro",
     title: "Coca Cola",
     left: 7,
@@ -78,4 +78,5 @@ export const staticDatas = [
     price: 2500,
     img: cola,
   },
+  
 ];

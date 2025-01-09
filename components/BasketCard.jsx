@@ -1,72 +1,57 @@
-import React, { useState } from "react";
+"use client";
+import { useHomeContext } from "@/contexts/HomeContext";
+import { useState } from "react";
 import Plus from "@/public/Plus.svg";
 import minus from "@/public/Minus.svg";
 import Image from "next/image";
 import Bin from "@/public/Bin.svg";
 import Info from "@/public/Info.svg";
-import { useHomeContext } from "@/contexts/HomeContext";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const BasketCard = ({ title, inCart, img, price, info, id }) => {
   const [infoShow, setInfoShow] = useState(false);
-  const [removing, setRemoving] = useState(false);
-  const { data, cart, setData, setCart } = useHomeContext();
-  const handleDecrease = (id) => {
+  const { data, cart, setData, setCart, removing, setRemoving } =
+    useHomeContext();
+  //Great one, But almost amazing, Rethink again tmw
+  const handleQuantityChange = (id, itemType) => {
+    const minLimit = cart.find((item) => item.id === id);
+    if (minLimit.inCart === 1 && itemType === "decrease") {
+      toast("Бараа доод хязгаартаа хүрсэн байна!", { icon: "✋🏻" });
+      return;
+    }
     const updateCart = cart
       .map((item) => {
         if (item.id === id) {
-          const newInCart = item.inCart - 1;
-          if (newInCart <= 0) {
-            setRemoving(true);
-            return { ...item, inCart: 0 };
-          }
+          const newInCart =
+            itemType === "increase" ? item.inCart + 1 : item.inCart - 1;
+
           return { ...item, inCart: newInCart };
         }
         return item;
       })
       .filter((item) => item.inCart > 0);
-
-    const updateData = data.map((item) => {
-      if (item.id === id) {
-        return { ...item, left: item.left + 1 };
-      }
-      return item;
-    });
-    setTimeout(() => {
-      setCart(updateCart);
-      setData(updateData);
-      setRemoving(false);
-    }, 300);
-  };
-  const handleIncrease = (id) => {
-    const filteredData = data.find((item) => item.id === id);
-    if (filteredData.left === 0) {
-      toast.warn("You have reached its maximum limit BRO!");
+    const maxLimit = data.find((item) => item.id === id);
+    if (maxLimit.left === 0 && itemType === "increase") {
+      toast("Бараа дээд хязгаартаа хүрсэн байна!", { icon: "✋🏻" });
       return;
     }
-    const updateCart = cart.map((item) => {
-      if (item.id === id) {
-        return { ...item, inCart: item.inCart + 1 };
-      }
-      return item;
-    });
     const updateData = data.map((item) => {
       if (item.id === id) {
-        return { ...item, left: item.left - 1 };
+        const newLeft =
+          itemType === "increase" ? Math.max(item.left - 1, 0) : item.left + 1;
+        return { ...item, left: newLeft };
       }
       return item;
     });
     setCart(updateCart);
     setData(updateData);
   };
-  const handleRemove = (id) => {
-    const myCart = cart.find((item) => {
-      if (item.id === id) return item;
-    });
-    const removeCart = cart.filter(
-      (item) => item.id !== id || setRemoving(true)
-    );
 
+  const handleRemove = (id) => {
+    const myCart = cart.find((item) => item.id === id);
+    if (!myCart) return;
+
+    const removeCart = cart.filter((item) => item.id !== id);
     const updatedData = data.map((item) => {
       if (item.id === id) {
         return { ...item, left: item.left + myCart.inCart };
@@ -74,17 +59,19 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
       return item;
     });
 
+    setRemoving(id);
+
     setTimeout(() => {
       setCart(removeCart);
       setData(updatedData);
-      setRemoving(false);
-    }, 300);
+      setRemoving(null);
+    }, 600);
   };
 
   return (
     <div
-      className={`flex flex-row justify-between w-[498px] h-[132px] px-3 py-3 gap-2 bg-white border-2 border-[#EDEDED] rounded-xl ${
-        removing ? "duration-1000 scale-90  " : ""
+      className={`flex flex-row justify-between  px-3 py-3 gap-2  bg-white border-2 border-[#EDEDED] rounded-xl ${
+        removing === id ? "duration-1000 -translate-x-[800px]" : "translate-x-0"
       }`}
     >
       <div>
@@ -114,7 +101,7 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
                 handleRemove(id);
               }}
             />
-            <div className=" ">
+            <div>
               <Image
                 priority
                 src={Info}
@@ -143,7 +130,7 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
               width={40}
               height={40}
               onClick={() => {
-                handleDecrease(id);
+                handleQuantityChange(id, "decrease");
               }}
             />
             <div className="text-[#303030] text-xl font-normal font-['Roboto']">
@@ -156,7 +143,7 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
               width={40}
               height={40}
               onClick={() => {
-                handleIncrease(id);
+                handleQuantityChange(id, "increase");
               }}
             />
           </div>
