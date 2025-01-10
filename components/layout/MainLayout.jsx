@@ -9,7 +9,7 @@ export const MainLayout = ({ children }) => {
   const { setMenu, cart } = useHomeContext();
   return (
     <>
-      <div className="flex flex-col w-full h-screen items-center bg-[#FAFAFB] font-[family-name:var(--font-geist-sans)] relative overflow-hidden">
+      <div className="flex flex-col w-screen h-screen bg-[#FAFAFB] font-[family-name:var(--font-geist-sans)] relative overflow-hidden">
         <Header />
         <MenuCarousel cart={cart} />
         <button onClick={() => setMenu(() => "Cart")}></button>

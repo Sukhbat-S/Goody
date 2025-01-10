@@ -8,7 +8,6 @@ import plusLimit from "@/public/plusLimit.svg";
 import Image from "next/image";
 import Bin from "@/public/Bin.svg";
 import Info from "@/public/Info.svg";
-import toast from "react-hot-toast";
 
 export const BasketCard = ({ title, inCart, img, price, info, id }) => {
   const [infoShow, setInfoShow] = useState(false);
@@ -63,9 +62,9 @@ export const BasketCard = ({ title, inCart, img, price, info, id }) => {
 
   return (
     <div
-      className={`flex flex-row justify-between  px-3 py-3 gap-2  bg-white border-2 border-[#EDEDED] rounded-xl  ${
+      className={`flex flex-row justify-between  px-3 py-3 gap-2  bg-white border-2 border-[#EDEDED] rounded-xl   ${
         removing === id ? "duration-1000 -translate-x-[800px]" : "translate-x-0"
-      }`}
+      } `}
     >
       <div>
         <Image priority src={img} alt={`${img}-${title}`} key={id} />

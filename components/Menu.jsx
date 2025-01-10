@@ -1,15 +1,9 @@
 "use client";
 import { useHomeContext } from "@/contexts/HomeContext";
 import { MenuCard } from ".";
-import { useSwipeable } from "react-swipeable";
-import { useState } from "react";
 
-export const Menu = () => {
-  const { menu, data, setData, cart, setCart } = useHomeContext();
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(0);
+export const Menu = ({ changePage }) => {
+  const { data, setData, cart, setCart } = useHomeContext();
 
   const handleCart = (id) => {
     const selectedItem = data.find((item) => item.id === id);
@@ -44,41 +38,18 @@ export const Menu = () => {
     setData(updatedData);
   };
 
-  const handleSwipeMenuUp = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage((prev) => prev + 1);
-    } else if (currentPage === totalPages - 1) {
-      setCurrentPage(0);
-    }
-  };
-
-  const handleSwipeMenuDown = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prev) => prev - 1);
-    } else if (currentPage === 0) {
-      setCurrentPage(totalPages - 1);
-    }
-  };
-
-  const swipeMenu = useSwipeable({
-    onSwipedUp: handleSwipeMenuUp,
-    onSwipedDown: handleSwipeMenuDown,
-    delta: 100,
-  });
-
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageItems = data.slice(startIndex, endIndex);
-
   return (
     <>
-      {menu === "Menu" && (
-        <div className="flex gap-1">
+      {
+        <div
+          className={`flex  w-screen duration-700  h-screen overflow-y-scroll  ${
+            changePage ? "-translate-x-full " : "-inset-0 translate-x-0"
+          } `}
+        >
           <div
-            {...swipeMenu}
-            className={`grid grid-flow-row grid-cols-4 gap-3 items-center justify-center w-full h-full scroll-smooth`}
+            className={`grid grid-flow-row grid-cols-4 gap-3 items-center justify-center w-full h-fit  duration-1000  mx-36   `}
           >
-            {currentPageItems.map((x, index) => (
+            {data.map((x, index) => (
               <div key={x.id}>
                 <MenuCard
                   title={x.title}
@@ -93,7 +64,7 @@ export const Menu = () => {
             ))}
           </div>
         </div>
-      )}
+      }
     </>
   );
 };

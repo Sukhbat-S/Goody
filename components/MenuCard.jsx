@@ -3,9 +3,7 @@ import addCart from "../public/addCart.svg";
 import Image from "next/image";
 export const MenuCard = ({ title, left, img, price, addToCart, index, id }) => {
   const [flyCart, setFlyCart] = useState(null);
-
-  const isAnimating = useRef(false); // To track if animation is running
-
+  const isAnimating = useRef(false);
   const handleChange = async () => {
     if (left === 0 || isAnimating.current) {
       return;

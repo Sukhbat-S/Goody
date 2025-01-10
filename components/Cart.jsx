@@ -1,12 +1,16 @@
-import React from "react";
+"use client";
 import BasketCard from "./BasketCard";
 import { Order } from "./Order";
 
-export const Cart = ({ menu, cart }) => {
+export const Cart = ({ cart, changePage, setChangePage }) => {
   return (
     <>
-      {menu === "Cart" && (
-        <div className=" overflow-hidden flex flex-row w-full gap-8 h-full border mx-32">
+      {
+        <div
+          className={`flex w-screen gap-8  duration-700 px-36 items-start ${
+            changePage ? "-translate-x-full -inset-0" : " translate-x-full"
+          }  `}
+        >
           <div className="flex flex-col gap-3 flex-1 overflow-scroll  h-[580px]">
             {cart.length > 0 &&
               cart.map((x, index) => {
@@ -27,9 +31,9 @@ export const Cart = ({ menu, cart }) => {
                 );
               })}
           </div>
-          <Order cart={cart} />
+          <Order cart={cart} setChangePage={setChangePage} />
         </div>
-      )}
+      }
     </>
   );
 };
