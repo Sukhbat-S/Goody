@@ -9,6 +9,8 @@ export const HomeContextProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState([]);
   const [removing, setRemoving] = useState(false);
+  const [changePage, setChangePage] = useState(false);
+
   return (
     <HomeContext.Provider
       value={{
@@ -22,6 +24,8 @@ export const HomeContextProvider = ({ children }) => {
         setCart,
         cartCount,
         setCartCount,
+        changePage,
+        setChangePage,
       }}
     >
       {children}

@@ -1,13 +1,13 @@
 import { useHomeContext } from "@/contexts/HomeContext";
 import React from "react";
 
-export const Order = ({ cart }) => {
+export const Order = ({ cart, setChangePage }) => {
   const { setMenu, removing } = useHomeContext();
   return (
     <div className="flex-1">
       {cart.length > 0 ? (
         <div
-          className={`flex flex-col gap-6 justify-between h-full bg-white border-2 border-[#ededed] p-4 rounded-xl`}
+          className={`flex flex-col gap-6 justify-between h-[570px] bg-white border-2 border-[#ededed] p-4 rounded-xl`}
         >
           <div className="h-fit grid gap-6">
             <div className="flex text-xl font-medium">Төлбөрийн мэдээлэл</div>
@@ -61,8 +61,8 @@ export const Order = ({ cart }) => {
         <div className={`py-48 h-fit grid relative -left-32 gap-4 `}>
           <div>Сагсалсан бараа байхгүй байна!</div>
           <button
-            onClick={() => setMenu("Menu")}
-            className="bg-[#308226] text-white px-12 py-1 mx-12 rounded-md w-fit"
+            onClick={() => setChangePage(false)}
+            className="bg-[#308226] text-white px-12 py-3 mx-12 rounded-md w-fit"
           >
             Буцах
           </button>

@@ -6,27 +6,28 @@ import { Cart } from "@/components";
 import { useSwipeable } from "react-swipeable";
 
 export default function Home() {
-  const { menu, cart, setMenu } = useHomeContext();
-
-  const handleSwipe = () => {
-    setMenu(menu === "Menu" ? "Cart" : "Menu");
-  };
+  const { menu, cart, changePage, setChangePage } = useHomeContext();
 
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: handleSwipe,
-    onSwipedRight: handleSwipe,
-    delta: 100,
+    onSwipedRight: () => {
+      setChangePage(false);
+    },
+    onSwipedLeft: () => {
+      setChangePage(true);
+    },
   });
 
   return (
     <MainLayout>
-      <main
-        className="flex flex-row w-full justify-center items-start px-8 duration-500"
-        {...swipeHandlers}
-      >
-        <Menu />
-        <Cart menu={menu} cart={cart} />
-      </main>
+      <div className="flex w-fit " {...swipeHandlers}>
+        <Menu changePage={changePage} />
+        <Cart
+          menu={menu}
+          cart={cart}
+          changePage={changePage}
+          setChangePage={setChangePage}
+        />
+      </div>
     </MainLayout>
   );
 }
